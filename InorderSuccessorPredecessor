@@ -1,1 +1,87 @@
 
+import java.util.*;
+class Node
+{
+	int data;
+   	Node left;
+    	Node right;
+	
+	Node(int data)
+	{
+		this.data = data;
+		left = null;
+		right = null;
+	}
+}
+class InOrderSuccessorPredecessor
+{
+	static int successor,predecessor;
+	public static void main(String args[])
+	{
+		Node root = new Node(20);
+
+		root.left = new Node(10);
+		root.right = new Node(30);
+	
+		root.left.left = new Node(5);
+		root.left.right = new Node(15);
+	
+		root.right.left = new Node(25);	
+		root.right.right = new Node(35);
+		
+		root.left.left.right = new Node(7);
+	
+		root.left.right.left = new Node(13);
+		root.left.right.right = new Node(18);
+
+		InOrderSuccessorPredecessor i = new InOrderSuccessorPredecessor();
+		i.getSUccessorPredecessor(root,10);
+
+		System.out.println("Inorder Successor of 10 is : " + successor+ " and predecessor is : " + predecessor);
+
+	}
+
+	public static void getSUccessorPredecessor(Node root,int val)
+	{
+		if(root == null)
+		{
+			return;		
+		}
+		
+		if(root != null)
+		{
+			if(root.data == val)
+			{
+				if(root.left != null)
+				{
+					Node temp = root.left;
+                    			while (temp.right != null) 
+					{
+                       		        	temp = temp.right;
+					}
+					predecessor = temp.data;
+				}
+				
+				if(root.right != null)
+				{
+					Node temp = root.right;			
+					if(temp.left != null)
+					{
+						temp = temp.left;
+					}
+					successor = temp.data;
+				}
+			}
+			else if(root.data > val)
+			{
+				successor = root.data;
+				getSUccessorPredecessor(root.left, val);
+			}
+			else if(root.data < val)
+			{
+				predecessor = root.data;
+				getSUccessorPredecessor(root.right, val);
+			}
+		}
+	}
+}
